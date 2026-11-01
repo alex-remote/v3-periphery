@@ -25,7 +25,7 @@ describe('SwapRouter gas tests', function () {
   }> = async (wallets, provider) => {
     const { weth9, factory, router, tokens, nft } = await completeFixture(wallets, provider)
 
-    // approve & fund wallets
+    // 授权代币并为钱包注资
     for (const token of tokens) {
       await token.approve(router.address, constants.MaxUint256)
       await token.approve(nft.address, constants.MaxUint256)
@@ -42,7 +42,7 @@ describe('SwapRouter gas tests', function () {
         tokenAddressA,
         tokenAddressB,
         FeeAmount.MEDIUM,
-        encodePriceSqrt(100005, 100000) // we don't want to cross any ticks
+        encodePriceSqrt(100005, 100000) // 我们不希望穿越任何 tick
       )
 
       const liquidityParams = {
@@ -68,7 +68,7 @@ describe('SwapRouter gas tests', function () {
       return createPool(weth9.address, tokenAddress)
     }
 
-    // create pools
+    // 创建池
     await createPool(tokens[0].address, tokens[1].address)
     await createPool(tokens[1].address, tokens[2].address)
     await createPoolWETH9(tokens[0].address)
@@ -126,13 +126,13 @@ describe('SwapRouter gas tests', function () {
       recipient: outputIsWETH9 ? constants.AddressZero : trader.address,
       deadline: 1,
       amountIn,
-      amountOutMinimum: outputIsWETH9 ? 0 : amountOutMinimum, // save on calldata,
+      amountOutMinimum: outputIsWETH9 ? 0 : amountOutMinimum, // 节省 calldata，
     }
 
     const data = [router.interface.encodeFunctionData('exactInput', [params])]
     if (outputIsWETH9) data.push(router.interface.encodeFunctionData('unwrapWETH9', [amountOutMinimum, trader.address]))
 
-    // optimized for the gas test
+    // 针对 gas 测试做了优化
     return data.length === 1
       ? router.connect(trader).exactInput(params, { value })
       : router.connect(trader).multicall(data, { value })
@@ -158,20 +158,20 @@ describe('SwapRouter gas tests', function () {
       recipient: outputIsWETH9 ? constants.AddressZero : trader.address,
       deadline: 1,
       amountIn,
-      amountOutMinimum: outputIsWETH9 ? 0 : amountOutMinimum, // save on calldata
+      amountOutMinimum: outputIsWETH9 ? 0 : amountOutMinimum, // 节省 calldata
     }
 
     const data = [router.interface.encodeFunctionData('exactInputSingle', [params])]
     if (outputIsWETH9) data.push(router.interface.encodeFunctionData('unwrapWETH9', [amountOutMinimum, trader.address]))
 
-    // optimized for the gas test
+    // 针对 gas 测试做了优化
     return data.length === 1
       ? router.connect(trader).exactInputSingle(params, { value })
       : router.connect(trader).multicall(data, { value })
   }
 
   async function exactOutput(tokens: string[]): Promise<ContractTransaction> {
-    const amountInMaximum = 10 // we don't care
+    const amountInMaximum = 10 // 我们不关心这个值
     const amountOut = 1
 
     const inputIsWETH9 = tokens[0] === weth9.address
@@ -224,7 +224,7 @@ describe('SwapRouter gas tests', function () {
     return router.connect(trader).multicall(data, { value })
   }
 
-  // TODO should really throw this in the fixture
+  // TODO 其实应该把这一步放进 fixture 中
   beforeEach('intialize feeGrowthGlobals', async () => {
     await exactInput([tokens[0].address, tokens[1].address], 1, 0)
     await exactInput([tokens[1].address, tokens[0].address], 1, 0)
@@ -309,7 +309,7 @@ describe('SwapRouter gas tests', function () {
         recipient: constants.AddressZero,
         deadline: 1,
         amountIn: 3,
-        amountOutMinimum: 0, // save on calldata
+        amountOutMinimum: 0, // 节省 calldata
       }
 
       const swap1 = {
@@ -317,7 +317,7 @@ describe('SwapRouter gas tests', function () {
         recipient: constants.AddressZero,
         deadline: 1,
         amountIn: 3,
-        amountOutMinimum: 0, // save on calldata
+        amountOutMinimum: 0, // 节省 calldata
       }
 
       const data = [

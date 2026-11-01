@@ -29,7 +29,7 @@
 | A05 | 3 | 72 | 进行中 |
 | A06 | 9 | 61 + MD 4 行 | 进行中 |
 | A07 | 6 | 60 | 进行中 |
-| A08 | 2 | 56 | 进行中 |
+| A08 | 2 | 56 | 已完成 |
 | A09 | 5 | 70 | 进行中 |
 | A10 | 6 | 45 | 进行中 |
 | A11 | 3 | 63 | 进行中 |
@@ -37,7 +37,7 @@
 | A13 | 12 | 66 | 进行中 |
 | A14 | 10 | 42 | 进行中 |
 | A15 | 3 | MD 80 行 | 进行中 |
-| A16 | 1 | MD 80 行 | 进行中 |
+| A16 | 1 | MD 80 行 | 已完成 |
 
 ## 三、需翻译文件清单
 
@@ -114,8 +114,8 @@
 - [ ] `test/PositionValue.spec.ts` — 490 行 ｜ 待译注释 9 行 ｜ A14
 - [ ] `test/Quoter.spec.ts` — 201 行 ｜ 待译注释 2 行 ｜ A06
 - [ ] `test/QuoterV2.spec.ts` — 578 行 ｜ 待译注释 15 行 ｜ A05
-- [ ] `test/SwapRouter.gas.spec.ts` — 453 行 ｜ 待译注释 11 行 ｜ A08
-- [ ] `test/SwapRouter.spec.ts` — 916 行 ｜ 待译注释 45 行 ｜ A08
+- [x] `test/SwapRouter.gas.spec.ts` — 453 行 ｜ 待译注释 11 行 ｜ A08
+- [x] `test/SwapRouter.spec.ts` — 916 行 ｜ 待译注释 45 行 ｜ A08
 - [ ] `test/TickLens.spec.ts` — 223 行 ｜ 待译注释 2 行 ｜ A06
 - [ ] `test/V3Migrator.spec.ts` — 446 行 ｜ 待译注释 1 行 ｜ A14
 - [ ] `test/shared/completeFixture.ts` — 63 行 ｜ 待译注释 2 行 ｜ A14
@@ -132,7 +132,7 @@
 ### 3.4 Markdown 文档（另存 `_zh.md`）
 
 - [ ] `README.md` — 52 行 ｜ 译文 → `README_zh.md` ｜ A15
-- [ ] `bug-bounty.md` — 80 行 ｜ 译文 → `bug-bounty_zh.md` ｜ A16
+- [x] `bug-bounty.md` — 80 行 ｜ 译文 → `bug-bounty_zh.md` ｜ A16
 - [ ] `contracts/lens/README.md` — 4 行 ｜ 译文 → `contracts/lens/README_zh.md` ｜ A06
 - [ ] `deploys.md` — 25 行 ｜ 译文 → `deploys_zh.md` ｜ A15
 - [ ] `testnet-deploys.md` — 3 行 ｜ 译文 → `testnet-deploys_zh.md` ｜ A15
