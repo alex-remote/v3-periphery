@@ -15,7 +15,7 @@ export function formatSqrtRatioX96(
   let ratioNum = ((parseInt(sqrtRatioX96.toString()) / 2 ** 96) ** 2).toPrecision(5)
   let ratio = new Decimal(ratioNum.toString())
 
-  // adjust for decimals
+  // 根据小数位数（decimals）进行调整
   if (decimalsToken1 < decimalsToken0) {
     ratio = ratio.mul(TEN.pow(decimalsToken0 - decimalsToken1).toString())
   } else if (decimalsToken0 < decimalsToken1) {

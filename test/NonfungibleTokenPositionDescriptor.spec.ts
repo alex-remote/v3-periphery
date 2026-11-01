@@ -27,7 +27,7 @@ describe('NonfungibleTokenPositionDescriptor', () => {
     const { factory, nft, router, nftDescriptor } = await completeFixture(wallets, provider)
     const tokenFactory = await ethers.getContractFactory('TestERC20')
     const tokens: [TestERC20, TestERC20, TestERC20] = [
-      (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20, // do not use maxu256 to avoid overflowing
+      (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20, // 不使用 maxu256，以避免溢出
       (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20,
       (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20,
     ]
@@ -204,7 +204,7 @@ describe('NonfungibleTokenPositionDescriptor', () => {
       })
       const nftDescriptor = (await positionDescriptorFactory.deploy(
         weth9.address,
-        // 'FUNNYMONEY' as a bytes32 string
+        // 'FUNNYMONEY' 的 bytes32 字符串形式
         '0x46554e4e594d4f4e455900000000000000000000000000000000000000000000'
       )) as NonfungibleTokenPositionDescriptor
 

@@ -4,8 +4,8 @@ pragma abicoder v2;
 
 import '../interfaces/IMulticall.sol';
 
-/// @title Multicall
-/// @notice Enables calling multiple methods in a single call to the contract
+/// @title Multicall（多重调用）
+/// @notice 支持在对合约的单次调用中调用多个方法
 abstract contract Multicall is IMulticall {
     /// @inheritdoc IMulticall
     function multicall(bytes[] calldata data) public payable override returns (bytes[] memory results) {
@@ -14,7 +14,7 @@ abstract contract Multicall is IMulticall {
             (bool success, bytes memory result) = address(this).delegatecall(data[i]);
 
             if (!success) {
-                // Next 5 lines from https://ethereum.stackexchange.com/a/83577
+                // 以下 5 行代码来自 https://ethereum.stackexchange.com/a/83577
                 if (result.length < 68) revert();
                 assembly {
                     result := add(result, 0x04)

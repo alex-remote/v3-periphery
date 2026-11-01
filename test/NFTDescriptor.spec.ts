@@ -36,7 +36,7 @@ describe('NFTDescriptor', () => {
     const nftDescriptor = (await NFTDescriptorFactory.deploy()) as NFTDescriptorTest
     const TestERC20Metadata = tokenFactory.deploy(constants.MaxUint256.div(2), 'Test ERC20', 'TEST1')
     const tokens: [TestERC20Metadata, TestERC20Metadata, TestERC20Metadata, TestERC20Metadata] = [
-      (await tokenFactory.deploy(constants.MaxUint256.div(2), 'Test ERC20', 'TEST1')) as TestERC20Metadata, // do not use maxu256 to avoid overflowing
+      (await tokenFactory.deploy(constants.MaxUint256.div(2), 'Test ERC20', 'TEST1')) as TestERC20Metadata, // 不使用 maxu256，以避免溢出
       (await tokenFactory.deploy(constants.MaxUint256.div(2), 'Test ERC20', 'TEST2')) as TestERC20Metadata,
       (await tokenFactory.deploy(constants.MaxUint256.div(2), 'Test ERC20', 'TEST3')) as TestERC20Metadata,
       (await tokenFactory.deploy(constants.MaxUint256.div(2), 'Test ERC20', 'TEST4')) as TestERC20Metadata,
@@ -327,10 +327,10 @@ describe('NFTDescriptor', () => {
     })
 
     it('snapshot matches', async () => {
-      // get snapshot with super rare special sparkle
+      // 获取带有超稀有特殊闪光的快照
       tokenId = 1
       poolAddress = `0x${'b'.repeat(40)}`
-      // get a snapshot with svg fade
+      // 获取带有 svg 渐隐效果的快照
       tickCurrent = -1
       tickLower = 0
       tickUpper = 1000
@@ -596,7 +596,7 @@ describe('NFTDescriptor', () => {
           expect(await nftDescriptor.fixedPointToDecimalString(encodePriceSqrt(1, 1), 7, 18)).to.eq('0.000000000010000')
         })
 
-        // TODO: provide compatibility token prices that breach minimum price due to token decimal differences
+        // TODO: 为因代币小数位数差异而突破最低价格的代币价格提供兼容支持
         it.skip('returns the correct string when the decimal difference brings ratio below the minimum', async () => {
           const lowRatio = encodePriceSqrt(88498, 10 ** 35)
           expect(await nftDescriptor.fixedPointToDecimalString(lowRatio, 10, 20)).to.eq(
@@ -622,7 +622,7 @@ describe('NFTDescriptor', () => {
           const decimals1 = random(3, 21)
           const decimalDiff = Math.abs(decimals0 - decimals1)
 
-          // TODO: Address edgecase out of bounds prices due to decimal differences
+          // TODO: 处理因小数位数差异导致价格越界的边界情况
           if (
             ratio.div(TEN.pow(decimalDiff)).gt(LOWEST_SQRT_RATIO) &&
             ratio.mul(TEN.pow(decimalDiff)).lt(HIGHEST_SQRT_RATIO)

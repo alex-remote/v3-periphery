@@ -16,7 +16,7 @@ import './base/SelfPermit.sol';
 import './interfaces/external/IWETH9.sol';
 import './base/PoolInitializer.sol';
 
-/// @title Uniswap V3 Migrator
+/// @title Uniswap V3 迁移器
 contract V3Migrator is IV3Migrator, PeripheryImmutableState, PoolInitializer, Multicall, SelfPermit {
     using LowGasSafeMath for uint256;
 
@@ -38,19 +38,19 @@ contract V3Migrator is IV3Migrator, PeripheryImmutableState, PoolInitializer, Mu
         require(params.percentageToMigrate > 0, 'Percentage too small');
         require(params.percentageToMigrate <= 100, 'Percentage too large');
 
-        // burn v2 liquidity to this address
+        // 销毁 v2 流动性，所得代币发送到本合约地址
         IUniswapV2Pair(params.pair).transferFrom(msg.sender, params.pair, params.liquidityToMigrate);
         (uint256 amount0V2, uint256 amount1V2) = IUniswapV2Pair(params.pair).burn(address(this));
 
-        // calculate the amounts to migrate to v3
+        // 计算要迁移到 v3 的数量
         uint256 amount0V2ToMigrate = amount0V2.mul(params.percentageToMigrate) / 100;
         uint256 amount1V2ToMigrate = amount1V2.mul(params.percentageToMigrate) / 100;
 
-        // approve the position manager up to the maximum token amounts
+        // 授权头寸管理器，额度上限为最大代币数量
         TransferHelper.safeApprove(params.token0, nonfungiblePositionManager, amount0V2ToMigrate);
         TransferHelper.safeApprove(params.token1, nonfungiblePositionManager, amount1V2ToMigrate);
 
-        // mint v3 position
+        // 铸造 v3 头寸
         (, , uint256 amount0V3, uint256 amount1V3) =
             INonfungiblePositionManager(nonfungiblePositionManager).mint(
                 INonfungiblePositionManager.MintParams({
@@ -68,7 +68,7 @@ contract V3Migrator is IV3Migrator, PeripheryImmutableState, PoolInitializer, Mu
                 })
             );
 
-        // if necessary, clear allowance and refund dust
+        // 如有必要，清除授权额度并退还零头（dust）
         if (amount0V3 < amount0V2) {
             if (amount0V3 < amount0V2ToMigrate) {
                 TransferHelper.safeApprove(params.token0, nonfungiblePositionManager, 0);

@@ -15,7 +15,7 @@ describe('OracleLibrary', () => {
   const oracleTestFixture = async () => {
     const tokenFactory = await ethers.getContractFactory('TestERC20')
     const tokens: [TestERC20, TestERC20, TestERC20] = [
-      (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20, // do not use maxu256 to avoid overflowing
+      (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20, // 不使用 maxu256，以避免溢出
       (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20,
       (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20,
     ]
@@ -78,8 +78,8 @@ describe('OracleLibrary', () => {
 
       const { arithmeticMeanTick, harmonicMeanLiquidity } = await oracle.consult(mockObservable.address, period)
 
-      // Always round to negative infinity
-      // In this case, we need to subtract one because integer division rounds to 0
+      // 始终向负无穷取整
+      // 这种情况下需要减一，因为整数除法会向 0 取整
       expect(arithmeticMeanTick).to.equal(-1)
       expect(harmonicMeanLiquidity).to.equal(calculateHarmonicAvgLiq(period, secondsPerLiqCumulatives))
     })
@@ -97,7 +97,7 @@ describe('OracleLibrary', () => {
       const { arithmeticMeanTick, harmonicMeanLiquidity } = await oracle.consult(mockObservable.address, period)
 
       expect(arithmeticMeanTick).to.equal(0)
-      // Make sure liquidity doesn't overflow uint128
+      // 确保流动性不会溢出 uint128
       expect(harmonicMeanLiquidity).to.equal(BigNumber.from(2).pow(128).sub(1))
     })
 
@@ -127,14 +127,14 @@ describe('OracleLibrary', () => {
   })
 
   describe('#getQuoteAtTick', () => {
-    // sanity check
+    // 合理性检查
     it('token0: returns correct value when tick = 0', async () => {
       const quoteAmount = await oracle.getQuoteAtTick(BN0, expandTo18Decimals(1), tokens[0].address, tokens[1].address)
 
       expect(quoteAmount).to.equal(expandTo18Decimals(1))
     })
 
-    // sanity check
+    // 合理性检查
     it('token1: returns correct value when tick = 0', async () => {
       const quoteAmount = await oracle.getQuoteAtTick(BN0, expandTo18Decimals(1), tokens[1].address, tokens[0].address)
 
@@ -200,13 +200,13 @@ describe('OracleLibrary', () => {
   describe('#getOldestObservationSecondsAgo', () => {
     let mockObservationsFactory: ContractFactory
 
-    // some empty tick values as this function does not use them
+    // 一些空的 tick 值，因为该函数不使用它们
     const emptySPL = [0, 0, 0, 0]
     const emptyTickCumulatives = [0, 0, 0, 0]
     const emptyTick = 0
     const emptyLiquidity = 0
 
-    // helper function to run each test case identically
+    // 辅助函数，以相同方式运行每个测试用例
     const runOldestObservationsTest = async (
       blockTimestamps: number[],
       initializeds: boolean[],
@@ -227,7 +227,7 @@ describe('OracleLibrary', () => {
 
       var result = await oracle.getOldestObservationSecondsAgo(mockObservations.address)
 
-      //calculate seconds ago
+      //计算距今的秒数
       var secondsAgo
       if (initializeds[(observationIndex + 1) % observationCardinality]) {
         secondsAgo = result['currentTimestamp'] - blockTimestamps[(observationIndex + 1) % observationCardinality]
@@ -247,35 +247,35 @@ describe('OracleLibrary', () => {
     })
 
     it('fetches the oldest timestamp from the slot after observationIndex', async () => {
-      // set up test case
+      // 设置测试用例
       const blockTimestamps = [2, 3, 1, 0]
       const initializeds = [true, true, true, false]
       const observationCardinality = 3
       const observationIndex = 1
 
-      // run test
+      // 运行测试
       await runOldestObservationsTest(blockTimestamps, initializeds, observationCardinality, observationIndex)
     })
 
     it('loops to fetches the oldest timestamp from index 0', async () => {
-      // set up test case
+      // 设置测试用例
       const blockTimestamps = [1, 2, 3, 0]
       const initializeds = [true, true, true, false]
       const observationCardinality = 3
       const observationIndex = 2
 
-      // run test
+      // 运行测试
       await runOldestObservationsTest(blockTimestamps, initializeds, observationCardinality, observationIndex)
     })
 
     it('fetches from index 0 if the next index is uninitialized', async () => {
-      // set up test case
+      // 设置测试用例
       const blockTimestamps = [1, 2, 0, 0]
       const initializeds = [true, true, false, false]
       const observationCardinality = 4
       const observationIndex = 1
 
-      // run test
+      // 运行测试
       await runOldestObservationsTest(blockTimestamps, initializeds, observationCardinality, observationIndex)
     })
 
@@ -300,14 +300,14 @@ describe('OracleLibrary', () => {
     })
 
     it('fetches the correct timestamp when the timestamps overflow', async () => {
-      // set up test case
+      // 设置测试用例
       const maxUint32 = 2 ** 32 - 1
       const blockTimestamps = [maxUint32, 3, maxUint32 - 2, 0]
       const initializeds = [true, true, true, false]
       const observationCardinality = 3
       const observationIndex = 1
 
-      // run test
+      // 运行测试
       await runOldestObservationsTest(blockTimestamps, initializeds, observationCardinality, observationIndex)
     })
   })
@@ -448,7 +448,7 @@ describe('OracleLibrary', () => {
       var actualStartingTick = (tickCumulatives[0] - tickCumulatives[2]) / (blockTimestamps[0] - blockTimestamps[2])
       expect(result[0]).to.equal(actualStartingTick)
 
-      var actualStartingLiquidity = 13212 // see comments above
+      var actualStartingLiquidity = 13212 // 见上方注释
       expect(result[1]).to.equal(actualStartingLiquidity)
     })
   })

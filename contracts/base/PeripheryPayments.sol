@@ -45,10 +45,10 @@ abstract contract PeripheryPayments is IPeripheryPayments, PeripheryImmutableSta
         if (address(this).balance > 0) TransferHelper.safeTransferETH(msg.sender, address(this).balance);
     }
 
-    /// @param token The token to pay
-    /// @param payer The entity that must pay
-    /// @param recipient The entity that will receive payment
-    /// @param value The amount to pay
+    /// @param token 要支付的代币
+    /// @param payer 必须付款的一方
+    /// @param recipient 将收到付款的一方
+    /// @param value 要支付的数量
     function pay(
         address token,
         address payer,
@@ -56,14 +56,14 @@ abstract contract PeripheryPayments is IPeripheryPayments, PeripheryImmutableSta
         uint256 value
     ) internal {
         if (token == WETH9 && address(this).balance >= value) {
-            // pay with WETH9
-            IWETH9(WETH9).deposit{value: value}(); // wrap only what is needed to pay
+            // 用 WETH9 支付
+            IWETH9(WETH9).deposit{value: value}(); // 只包装支付所需的数量
             IWETH9(WETH9).transfer(recipient, value);
         } else if (payer == address(this)) {
-            // pay with tokens already in the contract (for the exact input multihop case)
+            // 用合约中已有的代币支付（用于精确输入多跳的情形）
             TransferHelper.safeTransfer(token, recipient, value);
         } else {
-            // pull payment
+            // 拉取付款
             TransferHelper.safeTransferFrom(token, payer, recipient, value);
         }
     }

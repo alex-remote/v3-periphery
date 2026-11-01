@@ -28,7 +28,7 @@ contract PathTest {
         return Path.skipToken(path);
     }
 
-    // gas funcs
+    // gas 相关函数
     function getGasCostOfDecodeFirstPool(bytes memory path) public view returns (uint256) {
         uint256 gasBefore = gasleft();
         Path.decodeFirstPool(path);

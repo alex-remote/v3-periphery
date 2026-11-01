@@ -40,7 +40,7 @@ describe('V3Migrator', () => {
     await weth9.deposit({ value: 10000 })
     await weth9.approve(nft.address, constants.MaxUint256)
 
-    // deploy the migrator
+    // 部署迁移器
     const migrator = (await (await ethers.getContractFactory('V3Migrator')).deploy(
       factory.address,
       weth9.address,

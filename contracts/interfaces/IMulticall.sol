@@ -2,12 +2,12 @@
 pragma solidity >=0.7.5;
 pragma abicoder v2;
 
-/// @title Multicall interface
-/// @notice Enables calling multiple methods in a single call to the contract
+/// @title Multicall 接口
+/// @notice 支持在对合约的单次调用中调用多个方法
 interface IMulticall {
-    /// @notice Call multiple functions in the current contract and return the data from all of them if they all succeed
-    /// @dev The `msg.value` should not be trusted for any method callable from multicall.
-    /// @param data The encoded function data for each of the calls to make to this contract
-    /// @return results The results from each of the calls passed in via data
+    /// @notice 调用当前合约中的多个函数，若全部成功则返回所有调用的数据
+    /// @dev 对于任何可通过 multicall 调用的方法，都不应信任 `msg.value`。
+    /// @param data 对本合约发起的每次调用的已编码函数数据
+    /// @return results 通过 data 传入的每次调用的结果
     function multicall(bytes[] calldata data) external payable returns (bytes[] memory results);
 }

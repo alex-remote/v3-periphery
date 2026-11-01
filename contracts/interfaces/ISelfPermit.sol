@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity >=0.7.5;
 
-/// @title Self Permit
-/// @notice Functionality to call permit on any EIP-2612-compliant token for use in the route
+/// @title 自签名授权（Self Permit）
+/// @notice 对任何兼容 EIP-2612 的代币调用 permit 的功能，供路由中使用
 interface ISelfPermit {
-    /// @notice Permits this contract to spend a given token from `msg.sender`
-    /// @dev The `owner` is always msg.sender and the `spender` is always address(this).
-    /// @param token The address of the token spent
-    /// @param value The amount that can be spent of token
-    /// @param deadline A timestamp, the current blocktime must be less than or equal to this timestamp
-    /// @param v Must produce valid secp256k1 signature from the holder along with `r` and `s`
-    /// @param r Must produce valid secp256k1 signature from the holder along with `v` and `s`
-    /// @param s Must produce valid secp256k1 signature from the holder along with `r` and `v`
+    /// @notice 允许本合约花费 `msg.sender` 的指定代币
+    /// @dev `owner` 始终为 msg.sender，`spender` 始终为 address(this)。
+    /// @param token 被花费代币的地址
+    /// @param value 可花费的代币数量
+    /// @param deadline 一个时间戳，当前区块时间必须小于或等于该时间戳
+    /// @param v 必须与 `r` 和 `s` 一起构成持有者的有效 secp256k1 签名
+    /// @param r 必须与 `v` 和 `s` 一起构成持有者的有效 secp256k1 签名
+    /// @param s 必须与 `r` 和 `v` 一起构成持有者的有效 secp256k1 签名
     function selfPermit(
         address token,
         uint256 value,
@@ -21,15 +21,15 @@ interface ISelfPermit {
         bytes32 s
     ) external payable;
 
-    /// @notice Permits this contract to spend a given token from `msg.sender`
-    /// @dev The `owner` is always msg.sender and the `spender` is always address(this).
-    /// Can be used instead of #selfPermit to prevent calls from failing due to a frontrun of a call to #selfPermit
-    /// @param token The address of the token spent
-    /// @param value The amount that can be spent of token
-    /// @param deadline A timestamp, the current blocktime must be less than or equal to this timestamp
-    /// @param v Must produce valid secp256k1 signature from the holder along with `r` and `s`
-    /// @param r Must produce valid secp256k1 signature from the holder along with `v` and `s`
-    /// @param s Must produce valid secp256k1 signature from the holder along with `r` and `v`
+    /// @notice 允许本合约花费 `msg.sender` 的指定代币
+    /// @dev `owner` 始终为 msg.sender，`spender` 始终为 address(this)。
+    /// 可替代 #selfPermit 使用，以防止因对 #selfPermit 的调用被抢跑（frontrun）而导致调用失败
+    /// @param token 被花费代币的地址
+    /// @param value 可花费的代币数量
+    /// @param deadline 一个时间戳，当前区块时间必须小于或等于该时间戳
+    /// @param v 必须与 `r` 和 `s` 一起构成持有者的有效 secp256k1 签名
+    /// @param r 必须与 `v` 和 `s` 一起构成持有者的有效 secp256k1 签名
+    /// @param s 必须与 `r` 和 `v` 一起构成持有者的有效 secp256k1 签名
     function selfPermitIfNecessary(
         address token,
         uint256 value,
@@ -39,14 +39,14 @@ interface ISelfPermit {
         bytes32 s
     ) external payable;
 
-    /// @notice Permits this contract to spend the sender's tokens for permit signatures that have the `allowed` parameter
-    /// @dev The `owner` is always msg.sender and the `spender` is always address(this)
-    /// @param token The address of the token spent
-    /// @param nonce The current nonce of the owner
-    /// @param expiry The timestamp at which the permit is no longer valid
-    /// @param v Must produce valid secp256k1 signature from the holder along with `r` and `s`
-    /// @param r Must produce valid secp256k1 signature from the holder along with `v` and `s`
-    /// @param s Must produce valid secp256k1 signature from the holder along with `r` and `v`
+    /// @notice 针对带有 `allowed` 参数的 permit 签名，允许本合约花费发送者的代币
+    /// @dev `owner` 始终为 msg.sender，`spender` 始终为 address(this)
+    /// @param token 被花费代币的地址
+    /// @param nonce 所有者当前的 nonce
+    /// @param expiry permit 失效的时间戳
+    /// @param v 必须与 `r` 和 `s` 一起构成持有者的有效 secp256k1 签名
+    /// @param r 必须与 `v` 和 `s` 一起构成持有者的有效 secp256k1 签名
+    /// @param s 必须与 `r` 和 `v` 一起构成持有者的有效 secp256k1 签名
     function selfPermitAllowed(
         address token,
         uint256 nonce,
@@ -56,15 +56,15 @@ interface ISelfPermit {
         bytes32 s
     ) external payable;
 
-    /// @notice Permits this contract to spend the sender's tokens for permit signatures that have the `allowed` parameter
-    /// @dev The `owner` is always msg.sender and the `spender` is always address(this)
-    /// Can be used instead of #selfPermitAllowed to prevent calls from failing due to a frontrun of a call to #selfPermitAllowed.
-    /// @param token The address of the token spent
-    /// @param nonce The current nonce of the owner
-    /// @param expiry The timestamp at which the permit is no longer valid
-    /// @param v Must produce valid secp256k1 signature from the holder along with `r` and `s`
-    /// @param r Must produce valid secp256k1 signature from the holder along with `v` and `s`
-    /// @param s Must produce valid secp256k1 signature from the holder along with `r` and `v`
+    /// @notice 针对带有 `allowed` 参数的 permit 签名，允许本合约花费发送者的代币
+    /// @dev `owner` 始终为 msg.sender，`spender` 始终为 address(this)
+    /// 可替代 #selfPermitAllowed 使用，以防止因对 #selfPermitAllowed 的调用被抢跑（frontrun）而导致调用失败。
+    /// @param token 被花费代币的地址
+    /// @param nonce 所有者当前的 nonce
+    /// @param expiry permit 失效的时间戳
+    /// @param v 必须与 `r` 和 `s` 一起构成持有者的有效 secp256k1 签名
+    /// @param r 必须与 `v` 和 `s` 一起构成持有者的有效 secp256k1 签名
+    /// @param s 必须与 `r` 和 `v` 一起构成持有者的有效 secp256k1 签名
     function selfPermitAllowedIfNecessary(
         address token,
         uint256 nonce,

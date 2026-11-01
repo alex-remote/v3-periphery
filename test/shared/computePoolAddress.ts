@@ -12,9 +12,9 @@ export function computePoolAddress(factoryAddress: string, [tokenA, tokenB]: [st
   const create2Inputs = [
     '0xff',
     factoryAddress,
-    // salt
+    // salt（盐值）
     utils.keccak256(constructorArgumentsEncoded),
-    // init code hash
+    // init code hash（初始化代码哈希）
     POOL_BYTECODE_HASH,
   ]
   const sanitizedInputs = `0x${create2Inputs.map((i) => i.slice(2)).join('')}`

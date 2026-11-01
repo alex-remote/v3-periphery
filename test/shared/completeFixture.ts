@@ -23,7 +23,7 @@ const completeFixture: Fixture<{
 
   const tokenFactory = await ethers.getContractFactory('TestERC20')
   const tokens: [TestERC20, TestERC20, TestERC20] = [
-    (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20, // do not use maxu256 to avoid overflowing
+    (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20, // 不使用 maxu256，以避免溢出
     (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20,
     (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20,
   ]
@@ -37,7 +37,7 @@ const completeFixture: Fixture<{
   })
   const nftDescriptor = (await positionDescriptorFactory.deploy(
     tokens[0].address,
-    // 'ETH' as a bytes32 string
+    // 以 bytes32 字符串表示的 'ETH'
     '0x4554480000000000000000000000000000000000000000000000000000000000'
   )) as NonfungibleTokenPositionDescriptor
 

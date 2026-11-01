@@ -111,7 +111,7 @@ describe('TickLens', () => {
 
     function getTickBitmapIndex(tick: BigNumberish, tickSpacing: number): BigNumber {
       const intermediate = BigNumber.from(tick).div(tickSpacing)
-      // see https://docs.soliditylang.org/en/v0.7.6/types.html#shifts
+      // 参见 https://docs.soliditylang.org/en/v0.7.6/types.html#shifts
       return intermediate.lt(0) ? intermediate.add(1).div(BigNumber.from(2).pow(8)).sub(1) : intermediate.shr(8)
     }
 
@@ -201,7 +201,7 @@ describe('TickLens', () => {
     })
 
     it('fully populated ticks', async () => {
-      // fully populate a word
+      // 将一个字（word）的 tick 全部填满
       for (let i = 0; i < 128; i++) {
         await mint(i * TICK_SPACINGS[FeeAmount.MEDIUM], (255 - i) * TICK_SPACINGS[FeeAmount.MEDIUM], 100)
       }

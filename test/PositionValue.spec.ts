@@ -102,7 +102,7 @@ describe('PositionValue', async () => {
       await tokens[0].approve(router.address, swapAmount)
       await tokens[1].approve(router.address, swapAmount)
 
-      // accmuluate token0 fees
+      // 累积 token0 手续费
       await router.exactInput({
         recipient: wallets[0].address,
         deadline: 1,
@@ -111,7 +111,7 @@ describe('PositionValue', async () => {
         amountOutMinimum: 0,
       })
 
-      // accmuluate token1 fees
+      // 累积 token1 手续费
       await router.exactInput({
         recipient: wallets[0].address,
         deadline: 1,
@@ -306,7 +306,7 @@ describe('PositionValue', async () => {
         await tokens[0].approve(router.address, swapAmount)
         await tokens[1].approve(router.address, swapAmount)
 
-        // accmuluate token0 fees
+        // 累积 token0 手续费
         await router.exactInput({
           recipient: wallets[0].address,
           deadline: 1,
@@ -315,7 +315,7 @@ describe('PositionValue', async () => {
           amountOutMinimum: 0,
         })
 
-        // accmuluate token1 fees
+        // 累积 token1 手续费
         await router.exactInput({
           recipient: wallets[0].address,
           deadline: 1,
@@ -351,7 +351,7 @@ describe('PositionValue', async () => {
         const swapAmount = expandTo18Decimals(1_000)
         await tokens[0].approve(router.address, swapAmount)
 
-        // accmuluate more token0 fees after clearing initial amount
+        // 清空初始数量后，继续累积更多 token0 手续费
         await router.exactInput({
           recipient: wallets[0].address,
           deadline: 1,
@@ -395,7 +395,7 @@ describe('PositionValue', async () => {
         await tokens[0].approve(router.address, constants.MaxUint256)
         await tokens[1].approve(router.address, constants.MaxUint256)
 
-        // accumulate token1 fees
+        // 累积 token1 手续费
         await router.exactInput({
           recipient: wallets[0].address,
           deadline: 1,
@@ -404,7 +404,7 @@ describe('PositionValue', async () => {
           amountOutMinimum: 0,
         })
 
-        // accumulate token0 fees and push price below tickLower
+        // 累积 token0 手续费，并将价格推低至 tickLower 以下
         await router.exactInput({
           recipient: wallets[0].address,
           deadline: 1,
@@ -451,7 +451,7 @@ describe('PositionValue', async () => {
         await tokens[0].approve(router.address, constants.MaxUint256)
         await tokens[1].approve(router.address, constants.MaxUint256)
 
-        // accumulate token0 fees
+        // 累积 token0 手续费
         await router.exactInput({
           recipient: wallets[0].address,
           deadline: 1,
@@ -460,7 +460,7 @@ describe('PositionValue', async () => {
           amountOutMinimum: 0,
         })
 
-        // accumulate token1 fees and push price above tickUpper
+        // 累积 token1 手续费，并将价格推高至 tickUpper 以上
         await router.exactInput({
           recipient: wallets[0].address,
           deadline: 1,

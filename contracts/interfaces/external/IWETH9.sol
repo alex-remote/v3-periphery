@@ -3,11 +3,11 @@ pragma solidity =0.7.6;
 
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 
-/// @title Interface for WETH9
+/// @title WETH9 接口
 interface IWETH9 is IERC20 {
-    /// @notice Deposit ether to get wrapped ether
+    /// @notice 存入 ether 以获得包装后的 ether
     function deposit() external payable;
 
-    /// @notice Withdraw wrapped ether to get ether
+    /// @notice 提取包装后的 ether 以换回 ether
     function withdraw(uint256) external;
 }

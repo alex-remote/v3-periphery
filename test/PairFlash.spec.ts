@@ -98,7 +98,7 @@ describe('PairFlash test', () => {
 
   describe('flash', () => {
     it('test correct transfer events', async () => {
-      //choose amountIn to test
+      //选择用于测试的 amountIn
       const amount0In = 1000
       const amount1In = 1000
 
@@ -114,7 +114,7 @@ describe('PairFlash test', () => {
         fee2: FeeAmount.LOW,
         fee3: FeeAmount.HIGH,
       }
-      // pool1 is the borrow pool
+      // pool1 是借款池
       const pool1 = computePoolAddress(factory.address, [token0.address, token1.address], FeeAmount.MEDIUM)
       const pool2 = computePoolAddress(factory.address, [token0.address, token1.address], FeeAmount.LOW)
       const pool3 = computePoolAddress(factory.address, [token0.address, token1.address], FeeAmount.HIGH)

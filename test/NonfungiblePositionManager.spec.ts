@@ -38,7 +38,7 @@ describe('NonfungiblePositionManager', () => {
   }> = async (wallets, provider) => {
     const { weth9, factory, tokens, nft, router } = await completeFixture(wallets, provider)
 
-    // approve & fund wallets
+    // 授权并为钱包注资
     for (const token of tokens) {
       await token.approve(nft.address, constants.MaxUint256)
       await token.connect(other).approve(nft.address, constants.MaxUint256)
@@ -260,7 +260,7 @@ describe('NonfungiblePositionManager', () => {
     it('can use eth via multicall', async () => {
       const [token0, token1] = sortedTokens(weth9, tokens[0])
 
-      // remove any approval
+      // 移除所有授权
       await weth9.approve(nft.address, 0)
 
       const createAndInitializeData = nft.interface.encodeFunctionData('createAndInitializePoolIfNecessary', [
@@ -1175,7 +1175,7 @@ describe('NonfungiblePositionManager', () => {
         FeeAmount.MEDIUM,
         encodePriceSqrt(1, 1)
       )
-      // nft 1 earns 25% of fees
+      // nft 1 赚取 25% 的手续费
       await nft.mint({
         token0: tokens[0].address,
         token1: tokens[1].address,
@@ -1189,7 +1189,7 @@ describe('NonfungiblePositionManager', () => {
         deadline: 1,
         recipient: wallet.address,
       })
-      // nft 2 earns 75% of fees
+      // nft 2 赚取 75% 的手续费
       await nft.mint({
         token0: tokens[0].address,
         token1: tokens[1].address,

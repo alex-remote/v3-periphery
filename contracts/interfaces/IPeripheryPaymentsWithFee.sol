@@ -3,12 +3,12 @@ pragma solidity >=0.7.5;
 
 import './IPeripheryPayments.sol';
 
-/// @title Periphery Payments
-/// @notice Functions to ease deposits and withdrawals of ETH
+/// @title 外围支付
+/// @notice 简化 ETH 存入与提取的函数
 interface IPeripheryPaymentsWithFee is IPeripheryPayments {
-    /// @notice Unwraps the contract's WETH9 balance and sends it to recipient as ETH, with a percentage between
-    /// 0 (exclusive), and 1 (inclusive) going to feeRecipient
-    /// @dev The amountMinimum parameter prevents malicious contracts from stealing WETH9 from users.
+    /// @notice 将本合约持有的 WETH9 余额解包，并以 ETH 形式发送给 recipient，其中比例介于
+    /// 0（不含）与 1（含）之间的一部分转给 feeRecipient
+    /// @dev amountMinimum 参数用于防止恶意合约窃取用户的 WETH9。
     function unwrapWETH9WithFee(
         uint256 amountMinimum,
         address recipient,
@@ -16,9 +16,9 @@ interface IPeripheryPaymentsWithFee is IPeripheryPayments {
         address feeRecipient
     ) external payable;
 
-    /// @notice Transfers the full amount of a token held by this contract to recipient, with a percentage between
-    /// 0 (exclusive) and 1 (inclusive) going to feeRecipient
-    /// @dev The amountMinimum parameter prevents malicious contracts from stealing the token from users
+    /// @notice 将本合约持有的某种代币的全部数量转给 recipient，其中比例介于
+    /// 0（不含）与 1（含）之间的一部分转给 feeRecipient
+    /// @dev amountMinimum 参数用于防止恶意合约窃取用户的代币
     function sweepTokenWithFee(
         address token,
         uint256 amountMinimum,
